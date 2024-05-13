@@ -1,0 +1,13 @@
+imageio
+matplotlib
+mgzip
+numpy
+onnx
+opencv-python
+pandas
+Pillow
+selenium
+tensorflow
+torch
+tqdm
+webdriver_manager
