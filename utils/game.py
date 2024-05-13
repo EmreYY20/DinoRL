@@ -2,56 +2,55 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-#from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.keys import Keys
 import time
 from PIL import Image
 from io import BytesIO
 import base64
 import numpy as np
 import cv2
-from selenium.webdriver.common.keys import Keys
-from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 import copy
 
-class Game():
+class Game:
     def __init__(self, game_url, init_script, cam_visualization=False):
         init_script = "document.getElementsByClassName('runner-canvas')[0].id = 'runner-canvas'"
         self.getbase64Script = "canvasRunner = document.getElementById('runner-canvas'); \
-        return canvasRunner.toDataURL().substring(22)"  
-        #chrome_options = Options()
-        #chrome_options.add_argument('headless') # not showing browser is faster
-        #chrome_options.add_argument("disable-infobars")
-        #chrome_options.add_argument("--mute-audio")
-        # self.driver = webdriver.Chrome(executable_path=chrome_driver_path, options=chrome_options)
-        self.driver = webdriver.Chrome()
-        self.driver.set_window_position(x=-10,y=0)
-        print(self.driver.get_window_size()) # print the size of browser
+        return canvasRunner.toDataURL().substring(22)"
+        
+        chrome_options = Options()
+        chrome_options.add_argument('headless')  # not showing browser is faster
+        chrome_options.add_argument("disable-infobars")
+        chrome_options.add_argument("--mute-audio")
+        
+        service = Service(ChromeDriverManager().install())
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)
+        
+        self.driver.set_window_position(x=-10, y=0)
+        print(self.driver.get_window_size())  # print the size of browser
         self.driver.set_window_size(1450, 1080)
         self.driver.get(game_url)
-        self.driver.execute_script("Runner.config.ACCELERATION=0") # no ACCELERATION and birds for the game, easy mode, 
-        time.sleep(1) # wait the html
-        self.driver.execute_script(init_script) # set id for the canvas
+        self.driver.execute_script("Runner.config.ACCELERATION=0")  # no ACCELERATION and birds for the game, easy mode
+        time.sleep(1)  # wait for the HTML
+        self.driver.execute_script(init_script)  # set id for the canvas
         self.CV_display = self.show_img()  # show the state using opencv instead of the browser
-        self.CV_display.__next__() # initiliaze the display coroutine
+        self.CV_display.__next__()  # initialize the display coroutine
         self.cam_visualization = cam_visualization
     
     def screen_shot(self):
         image_b64 = self.driver.execute_script(self.getbase64Script)
         np_img = np.array(Image.open(BytesIO(base64.b64decode(image_b64))))
-        np_img = cv2.cvtColor(np_img, cv2.COLOR_BGR2GRAY) # change 4 channels to 1 gray channel
+        np_img = cv2.cvtColor(np_img, cv2.COLOR_BGR2GRAY)  # change 4 channels to 1 gray channel
         self.canvas_image = copy.deepcopy(np_img)
-        np_img = cv2.resize(np_img, (80,80)) # resize the image to smaller
-        #np_img = Image.fromarray(np_img)
-        #np_img = np_img.save('./img/'+str(i)+'.png')
+        np_img = cv2.resize(np_img, (80, 80))  # resize the image to smaller
         return np_img
 
-    def show_img(self, graphs = False):
+    def show_img(self, graphs=False):
         while True:
             screen = (yield)
             window_title = "logs" if graphs else "game_play"
             cv2.namedWindow(window_title, cv2.WINDOW_NORMAL)
-            imS = cv2.resize(screen, (200, 130)) # the size of the cv2 window
+            imS = cv2.resize(screen, (200, 130))  # the size of the cv2 window
             cv2.imshow(window_title, imS)
             if (cv2.waitKey(1) & 0xFF == ord('q')):
                 cv2.destroyAllWindows()
@@ -60,11 +59,10 @@ class Game():
     def save_gif(self):
         pass
             
-    # get current state
-    def get_state(self,actions, grayscale_cam=None):
+    def get_state(self, actions, grayscale_cam=None):
         ''' grayscale_cam: the cam result to be visualized during testing '''
         reward = 0.1
-        is_over = False #game over
+        is_over = False  # game over
         if actions[1] == 1:
             self.press_up()
         '''elif actions[1] == 2:
@@ -76,7 +74,7 @@ class Game():
             reward = -1
             is_over = True
         
-        return image, reward, is_over # return the Experience tuple
+        return image, reward, is_over  # return the Experience tuple
 
     def get_crashed(self):
         return self.driver.execute_script("return Runner.instance_.crashed")
@@ -88,14 +86,14 @@ class Game():
         self.driver.execute_script("Runner.instance_.restart()")
 
     def press_up(self):
-        self.driver.find_element_by_tag_name("body").send_keys(Keys.ARROW_UP)
+        self.driver.find_element(By.TAG_NAME, "body").send_keys(Keys.ARROW_UP)
 
     def press_down(self):
-        self.driver.find_element_by_tag_name("body").send_keys(Keys.ARROW_DOWN)
+        self.driver.find_element(By.TAG_NAME, "body").send_keys(Keys.ARROW_DOWN)
 
     def get_score(self):
         score_array = self.driver.execute_script("return Runner.instance_.distanceMeter.digits")
-        score = ''.join(score_array) # the javascript object is of type array with score in the formate[1,0,0] which is 100.
+        score = ''.join(score_array)  # the javascript object is of type array with score in the format [1,0,0] which is 100.
         return int(score)
 
     def pause(self):

@@ -16,7 +16,6 @@ class ChromeDinoAgent:
         self.gamma = gamma
         self.device = device
 
-
     def sync_target(self):
         ''' A function for double DQN'''
         pass
@@ -206,3 +205,72 @@ class DoubleDQN(ChromeDinoAgent):
     def last_layer(self):
         pass
         
+# Policy Gradient Agent (REINFORCE)
+class PolicyGradientAgent:
+    def __init__(self, img_channels, ACTIONS, lr, gamma, device):
+        self.img_channels = img_channels
+        self.num_actions = ACTIONS
+        self.lr = lr
+        self.gamma = gamma
+        self.device = device
+        
+        self.model = nn.Sequential(
+            nn.Conv2d(in_channels=img_channels, out_channels=32, kernel_size=8, stride=4),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=4, stride=2),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1),
+            nn.ReLU(),
+            nn.Flatten(),
+            nn.Linear(2304, 512),
+            nn.ReLU(),
+            nn.Linear(512, ACTIONS),
+            nn.Softmax(dim=-1)
+        ).to(device)
+        
+        self.optimizer = optim.Adam(self.model.parameters(), lr=lr)
+        self.trajectory = []
+        
+    def get_action(self, state):
+        state = state.to(self.device)
+        probs = self.model(state)
+        action = torch.multinomial(probs, 1).item()
+        return action
+    
+    def store_transition(self, transition):
+        self.trajectory.append(transition)
+        
+    def compute_returns(self, rewards):
+        R = 0
+        returns = []
+        for r in rewards[::-1]:
+            R = r + self.gamma * R
+            returns.insert(0, R)
+        returns = torch.tensor(returns).to(self.device)
+        returns = (returns - returns.mean()) / (returns.std() + 1e-5)
+        return returns
+    
+    def update_policy(self):
+        states, actions, rewards = zip(*self.trajectory)
+        states = torch.stack(states)
+        actions = torch.tensor(actions).to(self.device)
+        returns = self.compute_returns(rewards)
+        
+        self.optimizer.zero_grad()
+        
+        probs = self.model(states)
+        log_probs = torch.log(probs)
+        selected_log_probs = returns * log_probs[np.arange(len(actions)), actions]
+        loss = -selected_log_probs.mean()
+        
+        loss.backward()
+        self.optimizer.step()
+        
+        self.trajectory = []
+        
+    def save_model(self):
+        torch.save(self.model.state_dict(), "./weights/policy_gradient.pth")
+        
+    def load_model(self, path):
+        self.model.load_state_dict(torch.load(path))
+        self.model.eval()
