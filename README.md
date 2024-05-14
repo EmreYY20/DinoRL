@@ -11,4 +11,4 @@
 ### Download repository
 Run the following command in your terminal to clone the repo.
 
-	git clone https://github.com/EmreYY20/DinoRL
+	git clone EmreYY20/DinoRL
