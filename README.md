@@ -22,6 +22,7 @@ Team members:
 ## Getting Started
 
 Follow these instructions to set up and run:
+python main.py -c config1
 
 ### Prerequisites
 
