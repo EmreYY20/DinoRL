@@ -16,7 +16,8 @@ A Reinforcement Learning project that trains multiple Reinforcement Learning Alg
 Team members:
 - [Emre Iyigün](https://github.com/EmreYY20) 
 - [Aref Hasan](https://github.com/aref-hasan) 
-- [Nik Yakovlev](https://github.com/nikyak10) 
+- [Nik Yakovlev](https://github.com/nikyak10)
+- [Ilgar Korkmaz](https://github.com/ilgark)
 
 ## Getting Started
 
