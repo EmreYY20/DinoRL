@@ -2,7 +2,6 @@ imageio
 matplotlib
 mgzip
 numpy
-onnx
 opencv-python
 pandas
 Pillow
