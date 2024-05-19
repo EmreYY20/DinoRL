@@ -1,11 +1,9 @@
 import pickle
 from replay_buffer.ReplayBuffer import ReplayBuffer, PrioritizedReplayBuffer
-
 from torch.utils.tensorboard import SummaryWriter
 import torch
 import torch.nn as nn
 from models.model import Baseline, DoubleDQN
-
 
 
 class AverageMeter:
@@ -63,7 +61,6 @@ def save_obj(obj, name):
 def load_obj(name):
     with open('result/' + name + '.pkl', 'rb') as f:
         return pickle.load(f)
-
 
 def export_onxx(checkpoint):
     ''' Export model as onxx format for deployment '''

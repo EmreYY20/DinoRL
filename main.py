@@ -41,7 +41,7 @@ def parse_args():
 
     return args
 
-# run with: python3 main.py -c config1
+# run with: python main.py -c config
 # turn on the cloud log: tensorboard dev upload --logdir runs
 if __name__ == '__main__':
     args = parse_args()

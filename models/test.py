@@ -1,18 +1,19 @@
+from tqdm import tqdm
+from utils.utils import AverageMeter
+from utils.game import Game
 import copy
 import torch
 import numpy as np
 import sys
 sys.path.append("../")
-from tqdm import tqdm
-from utils.utils import AverageMeter
-from utils.game import Game
 import time
 import imageio
 import pickle
 
+
 def test_agent(agent, args, device):
     print('-------------------------------------Create a new random env for testing------------------------------------')
-    game = Game(args.game_url, args.chrome_driver_path, args.init_script, args.cam_visualization) # create a random env for testing
+    game = Game(args.game_url, args.chrome_driver_path, args.init_script) # create a random env for testing
     agent.eval()
     scores = []
     
@@ -70,9 +71,8 @@ def test_agent(agent, args, device):
             if args.cam_visualization:
                 with open("./test_states/dino_states" + str(episode) + ".pickle", "wb") as f:
                     pickle.dump({'states': states, 'actions': actions}, f) # save for grad_cam
-
-
             game.restart()
+
     game.end()
     print('Average scores in {} episodes is {:.2f}'.format(args.num_test_episode, np.array(scores).mean()))
     print('Median scores in {} episodes is {:.2f}'.format(args.num_test_episode, np.median(np.array(scores))))

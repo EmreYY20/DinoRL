@@ -1,14 +1,15 @@
 #from turtle import forward
 from multiprocessing import dummy
+from torch import optim
 import torch.nn as nn
 import torch
 import copy
 import numpy as np
-from torch import optim
 
+# Chrome Dino Agent
 class ChromeDinoAgent:
     def __init__(self, img_channels, ACTIONS, lr, batch_size, gamma, device):
-        # prototype constructor
+        # Initialize the ChromeDinoAgent with specified parameters
         self.img_channels = img_channels
         self.num_actions = ACTIONS
         self.lr = lr
@@ -17,29 +18,33 @@ class ChromeDinoAgent:
         self.device = device
 
     def sync_target(self):
-        ''' A function for double DQN'''
+        ''' Synchronize the target network in a Double DQN implementation '''
         pass
 
     def save_model(self):
+        ''' Save the model to disk '''
         raise NotImplementedError
 
     def get_action(self, state):
+        ''' Get an action for a given state '''
         raise NotImplementedError
 
     def compute_loss(self, state_t, action_t, reward_t, state_t1, terminal):
+        ''' Compute the loss for the given transition '''
         pass
 
     def step(self, state_t, action_t, reward_t, state_t1, terminal):
+        ''' Perform a single step of training '''
         raise NotImplementedError
 
     def last_layer(self):
-        ''' A function to retrieve the last convolutional layer of the deep model for Grad CAM visualization'''
+        ''' Retrieve the last convolutional layer of the deep model for Grad-CAM visualization '''
         raise NotImplementedError
 
     def gradient_2norm(self):
         ''' 
-            return the 2 norm of gradient vector
-            use this function to check the norm and fine tune the max norm of norm clipping
+        Calculate and return the 2-norm of the gradient vector.
+        Use this function to check the norm and fine-tune the max norm for gradient clipping.
         '''
 
         for p in self.model.parameters():
@@ -50,10 +55,8 @@ class ChromeDinoAgent:
         return total_norm
     
 
-
 # Deep Q-Network
 class Baseline(ChromeDinoAgent):
-
     def __init__(self, img_channels, ACTIONS, lr, weight_decay, batch_size, gamma, device, grad_norm_clipping):
         super().__init__(img_channels, ACTIONS, lr, batch_size, gamma, device)
         
@@ -81,9 +84,8 @@ class Baseline(ChromeDinoAgent):
 
     def get_action(self, state):
         with torch.no_grad():
-            action_values = self.model(state.to(self.device)) # input a stack of 4 images, get the prediction
+            action_values = self.model(state.to(self.device)) # Inputs a stack of four images to get the prediction
         action_idx = torch.argmax(action_values)
-
         return action_idx
 
     def save_model(self):
@@ -96,13 +98,13 @@ class Baseline(ChromeDinoAgent):
         td_estimate = self.model(state_t.to(self.device))
         with torch.no_grad():
             td_target = self.model(state_t.to(self.device))
-            next_Q = self.model(state_t1.to(self.device)) # Q_sa
+            next_Q = self.model(state_t1.to(self.device)) 
             td_target[torch.arange(len(td_target)), action_t] = \
-                    (reward_t + (1 - terminal.float())*self.gamma *torch.amax(next_Q, axis=1)).float() # put a mask on the action_t
+                    (reward_t + (1 - terminal.float())*self.gamma *torch.amax(next_Q, axis=1)).float() # Puts a mask on the action_t
 
         loss = self.criterion(td_estimate.to(self.device), td_target.to(self.device))
 
-        # weighted loss, if we use prioritized reply buffer
+        # Weighted loss, if prioritized replay buffer is used
         if importance is not None: loss = (torch.FloatTensor(importance)*loss).mean()
 
         self.optimizer.zero_grad()
@@ -116,6 +118,7 @@ class Baseline(ChromeDinoAgent):
 
     def last_layer(self):
         pass
+
 
 # Double Deep Q-Network
 class DoubleDQN(ChromeDinoAgent):
@@ -143,7 +146,7 @@ class DoubleDQN(ChromeDinoAgent):
         
         self.target = copy.deepcopy(self.online)
 
-        # Q_target parameters are frozen.
+        # Q_target parameters are frozen
         for p in self.target.parameters():
             p.requires_grad = False
 
@@ -159,7 +162,7 @@ class DoubleDQN(ChromeDinoAgent):
 
     def get_action(self, state):
         with torch.no_grad():
-            action_values = self.online(state.to(self.device)) # input a stack of 4 images, get the prediction
+            action_values = self.online(state.to(self.device)) # Input a stack of four images to get the prediction
         action_idx = torch.argmax(action_values).item()
 
         return action_idx
@@ -189,7 +192,7 @@ class DoubleDQN(ChromeDinoAgent):
         # error: used for prioritized replay buffer
         loss, next_Q, error = self.compute_loss(state_t, action_t, reward_t, state_t1, terminal)
 
-        # weighted loss, if we use prioritized reply buffer
+        # Weighted loss, if prioritized replay buffer is used
         if importance is not None: loss = (importance*loss).mean()
 
         self.optimizer.zero_grad()
@@ -205,6 +208,7 @@ class DoubleDQN(ChromeDinoAgent):
     def last_layer(self):
         pass
         
+
 # Policy Gradient Agent (REINFORCE)
 class PolicyGradientAgent:
     def __init__(self, img_channels, ACTIONS, lr, gamma, device):

@@ -1,3 +1,5 @@
+from utils.utils import AverageMeter, save_obj
+from models.test import test_agent
 from cgitb import reset
 import time
 import numpy as np
@@ -6,14 +8,16 @@ import torch
 import copy
 import sys
 sys.path.append("../")
-from utils.utils import AverageMeter, save_obj
-from models.test import test_agent
+
 
 class trainNetwork:
-    def __init__(self, agent,game, writer, buffer, BATCH, device):
+    def __init__(self, agent, game, writer, buffer, BATCH, device):
         self.agent = agent
-        self.agent.online.to(device)
-        self.agent.target.to(device)
+        if hasattr(agent, 'online'):
+            self.agent.online.to(device)
+            self.agent.target.to(device)
+        else:
+            print("Warning: Agent does not have an 'online' attribute. Using default models instead.")
         self.game = game
         self.device = device
         self.writer = writer
@@ -25,15 +29,12 @@ class trainNetwork:
         """
         Store the experience to self.memory (replay buffer)
         """
-
         state = state.detach().clone().cpu()
         action_idx = torch.tensor(action_idx).detach().clone().cpu()
         next_state = next_state.detach().clone().cpu()
         reward = torch.tensor([reward]).detach().clone().cpu()
         terminal = torch.tensor([terminal]).detach().clone().cpu()
-
         self.memory.append((state, action_idx, reward, next_state, terminal))
-
 
     def save(self, epsilon, step, highest_score):
         #self.game.pause() # pause game while saving to filesystem
@@ -61,6 +62,7 @@ class trainNetwork:
         avg_reward = AverageMeter()
         avg_score = AverageMeter()
         avg_fps = AverageMeter()
+        
         # first action is do nothing
         do_nothing = np.zeros(ACTIONS) # the action array, 0: do nothing, 1: jump, 2: duck
         do_nothing[0] = 1 
