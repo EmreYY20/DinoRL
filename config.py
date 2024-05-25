@@ -16,7 +16,6 @@ args = {
     "checkpoint" : "./weights/double_dqn_high1.pth",
     "SAVE_EVERY": 100,
     "num_test_episode": 5,
-    "cam_visualization": False, # real-time Grad CAM visualization (XAI)
     "TEST_EVERY": 10,
     "SAVE_GIF": False,
     "SLEEP": 0.007, # using sleep() to control the fps in testing

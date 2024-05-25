@@ -9,7 +9,6 @@ import copy
 import sys
 sys.path.append("../")
 
-
 class trainNetwork:
     def __init__(self, agent, game, writer, buffer, BATCH, device):
         self.agent = agent
@@ -78,7 +77,7 @@ class trainNetwork:
         while current_episode < EPISODE:
             total_reward = 0
             start_time = time.time()
-            while not self.game.get_crashed(): # not game over yet
+            while not self.game.get_crashed():
                 #time.sleep(.03) # make the fps lower for small batch number
                 loss = torch.zeros(1)
                 Q_sa = torch.zeros((1,2))
@@ -191,5 +190,3 @@ class trainNetwork:
             avg_fps.reset()
             s_t = copy.deepcopy(initial_state) # reinitialize the first state
             self.game.restart() # restart the game if gameover
-            
-        

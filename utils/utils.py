@@ -5,7 +5,6 @@ import torch
 import torch.nn as nn
 from models.model import Baseline, DoubleDQN
 
-
 class AverageMeter:
     ''' Computes and stores the average and current value '''
     def __init__(self) -> None:
@@ -61,30 +60,3 @@ def save_obj(obj, name):
 def load_obj(name):
     with open('result/' + name + '.pkl', 'rb') as f:
         return pickle.load(f)
-
-def export_onxx(checkpoint):
-    ''' Export model as onxx format for deployment '''
-    pytorch_model = torch.load(checkpoint, map_location=torch.device('cpu'))
-
-    class add_argmax(nn.Module):
-        def __init__(self, model):
-            super(add_argmax, self).__init__()
-            self.model = model
-
-        def forward(self, input):
-            output = self.model(input)
-            action_index = torch.argmax(output)
-            return action_index
-    
-    # add a argmax layer, you can also use onnx runtime to add but the document is not that clear
-    pytorch_model = add_argmax(pytorch_model)
-
-    #pytorch_model.add_module("argmax", torch)
-    pytorch_model.eval()
-    dummy_input = torch.zeros(1, 4, 80, 80)
-    torch.onnx.export(pytorch_model, 
-                      dummy_input, 
-                      './weights/double_dqn.onnx', 
-                      input_names = ['input'], # the model's input names
-                      output_names = ['output'], # the model's output names
-                      verbose=True)

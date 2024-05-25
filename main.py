@@ -8,11 +8,9 @@ import importlib
 import argparse
 import torch
 import torch.nn as nn
-
 from types import SimpleNamespace
 from torch import optim
 from torch.utils.tensorboard import SummaryWriter
-
 from models.model import Baseline, DoubleDQN
 from models.train import trainNetwork
 from utils.utils import init_cache, load_obj
@@ -81,7 +79,7 @@ if __name__ == '__main__':
         OBSERVE = float('inf')
     
     if args.train != 'test':
-        game = Game(args.game_url, args.init_script, args.cam_visualization)
+        game = Game(args.game_url, args.init_script)
         game.screen_shot()
 
         train = trainNetwork(agent, game, writer, Deque, args.BATCH, device)

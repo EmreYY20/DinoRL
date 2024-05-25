@@ -23,6 +23,7 @@ class ReplayBuffer():
     def append(self, experience):
         self.buffer.append(experience)
 
+
 class PrioritizedReplayBuffer():
     def __init__(self, maxlen):
         self.buffer = deque(maxlen=maxlen)

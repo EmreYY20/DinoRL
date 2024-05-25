@@ -13,7 +13,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import copy
 
 class Game:
-    def __init__(self, game_url, init_script, cam_visualization=False):
+    def __init__(self, game_url, init_script):
         init_script = "document.getElementsByClassName('runner-canvas')[0].id = 'runner-canvas'"
         self.getbase64Script = "canvasRunner = document.getElementById('runner-canvas'); \
         return canvasRunner.toDataURL().substring(22)"
@@ -35,7 +35,6 @@ class Game:
         self.driver.execute_script(init_script)  # set id for the canvas
         self.CV_display = self.show_img()  # show the state using opencv instead of the browser
         self.CV_display.__next__()  # initialize the display coroutine
-        self.cam_visualization = cam_visualization
     
     def screen_shot(self):
         image_b64 = self.driver.execute_script(self.getbase64Script)
