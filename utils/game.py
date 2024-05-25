@@ -12,8 +12,8 @@ import cv2
 from webdriver_manager.chrome import ChromeDriverManager
 import copy
 
-class Game:
-    def __init__(self, game_url, init_script):
+class Game():
+    def __init__(self, game_url, chrome_driver_path, init_script):
         init_script = "document.getElementsByClassName('runner-canvas')[0].id = 'runner-canvas'"
         self.getbase64Script = "canvasRunner = document.getElementById('runner-canvas'); \
         return canvasRunner.toDataURL().substring(22)"
@@ -64,8 +64,8 @@ class Game:
         is_over = False  # game over
         if actions[1] == 1:
             self.press_up()
-        '''elif actions[1] == 2:
-            self.press_down()'''
+        #elif actions[1] == 2:
+        #    self.press_down()
         image = self.screen_shot()
         self.CV_display.send(image)
         

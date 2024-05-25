@@ -13,16 +13,16 @@ args = {
     "img_rows": 80,
     "img_cols": 80,
     "img_channels": 4, # We stack 4 frames
-    "checkpoint" : "./weights/double_dqn_high1.pth",
+    "checkpoint" : "./weights/double_dqn_1.pth",
     "SAVE_EVERY": 100,
     "num_test_episode": 5,
-    "TEST_EVERY": 10,
+    "TEST_EVERY": 15,
     "SAVE_GIF": False,
     "SLEEP": 0.007, # using sleep() to control the fps in testing
 
     # Hyperparameters
     "algorithm": "DoubleDQN",
-    "EPISODE": 5,
+    "EPISODE": 30,
     "ACTIONS": 2, # possible actions: jump, duck () and do nothing
     "GAMMA": 0.99, # decay rate of past observations original 0.99
     "OBSERVATION": 100, # timesteps to observe before training
@@ -36,7 +36,7 @@ args = {
     "weight_decay": 1e-4,
     "SYNC_EVERY": 1e4,   # no. of experiences between Q_target & Q_online sync
     "TRAIN_EVERY": 3,
-    "prioritized_replay": False, # FPS is slower than unprioritized and needs larger RAM (>40GB) otherwise killed
-    "grad_norm_clipping": 10, # prevent gradien explosion
+    "prioritized_replay": False, # FPS is slower than unprioritized
+    "grad_norm_clipping": 10 # prevent gradien explosion
 
 }

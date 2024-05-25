@@ -35,6 +35,10 @@ class ChromeDinoAgent:
     def step(self, state_t, action_t, reward_t, state_t1, terminal):
         ''' Perform a single step of training '''
         raise NotImplementedError
+    
+    def last_layer(self):
+        ''' A function to retrieve the last convolutional layer of the deep model for Grad CAM visualization'''
+        raise NotImplementedError
 
     def gradient_2norm(self):
         ''' 
@@ -110,6 +114,8 @@ class Baseline(ChromeDinoAgent):
 
         return avg_loss, avg_q_max
 
+    def last_layer(self):
+        pass
 
 # Double Deep Q-Network
 class DoubleDQN(ChromeDinoAgent):
@@ -195,3 +201,6 @@ class DoubleDQN(ChromeDinoAgent):
         avg_q_max = torch.mean(torch.amax(next_Q)).detach().cpu().item()
 
         return avg_loss, avg_q_max, error     
+    
+    def last_layer(self):
+        pass

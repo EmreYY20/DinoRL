@@ -50,9 +50,11 @@ def test_agent(agent, args, device):
                 if args.SAVE_GIF:
                     images.append(x_t1[0,0])
                     canvas_images.append(game.canvas_image)
+
                 avg_fps.update(1 / (time.time()-last_time), 1)
                 last_time = time.time()
-                tepoch.set_postfix(fps=avg_fps.avg)             
+                tepoch.set_postfix(fps=avg_fps.avg) 
+
                 time.sleep(args.SLEEP) # 0.007: 50 fps for non prioritized replay buffer, 0.04: 14-17fps for prioritized replay buffer
             scores.append(game.get_score())
             s_t = copy.deepcopy(initial_state)
@@ -60,6 +62,7 @@ def test_agent(agent, args, device):
             if args.SAVE_GIF:
                 imageio.mimsave('./img/double_dqn/dino' + str(episode) + '.gif', [np.array(img) for i, img in enumerate(images)], fps=50)
                 imageio.mimsave('./img/double_dqn/dino_canvas' + str(episode) + '.gif', [np.array(img) for i, img in enumerate(canvas_images)], fps=50)
+            
             game.restart()
 
     game.end()

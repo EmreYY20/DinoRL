@@ -1,5 +1,4 @@
 from cProfile import label
-from utils.utils import export_onxx
 import torch
 import numpy as np
 import matplotlib.pyplot as plt

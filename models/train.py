@@ -12,11 +12,8 @@ sys.path.append("../")
 class trainNetwork:
     def __init__(self, agent, game, writer, buffer, BATCH, device):
         self.agent = agent
-        if hasattr(agent, 'online'):
-            self.agent.online.to(device)
-            self.agent.target.to(device)
-        else:
-            print("Warning: Agent does not have an 'online' attribute. Using default models instead.")
+        self.agent.online.to(device)
+        self.agent.target.to(device)
         self.game = game
         self.device = device
         self.writer = writer

@@ -79,7 +79,7 @@ if __name__ == '__main__':
         OBSERVE = float('inf')
     
     if args.train != 'test':
-        game = Game(args.game_url, args.init_script)
+        game = Game(args.game_url, args.chrome_driver_path, args.init_script)
         game.screen_shot()
 
         train = trainNetwork(agent, game, writer, Deque, args.BATCH, device)
