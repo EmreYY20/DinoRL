@@ -21,9 +21,6 @@ Team members:
 
 ## Getting Started
 
-Follow these instructions to set up and run:
-python main.py -c config1
-
 ### Prerequisites
 
 - Python 3.10 or higher
@@ -44,7 +41,11 @@ python main.py -c config1
    pip install -r requirements.txt
 
 ### Usage
+Follow these instructions to set up and run:
 
+```bash
+python main.py -c config
+```
 
 ### License
 This project is licensed under the MIT License - see the [License](LICENSE) file for details. 
