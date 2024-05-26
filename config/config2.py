@@ -6,37 +6,37 @@ args = {
     # Env setting
     "game_url": "http://www.aboutsamyuen.com/projects/chrome_dino_js/index.html",
     "chrome_driver_path": "/usr/lib/chromium-browser/chromedriver",
-    "train": 'train', # 'train', 'test'
-    "init_script": "document.getElementsByClassName('runner-canvas')[0].id = 'runner-canvas'", #create id for canvas for faster selection from DOM
+    "train": 'train', # Options: 'train', 'test'
+    "init_script": "document.getElementsByClassName('runner-canvas')[0].id = 'runner-canvas'", # Create ID for canvas for faster selection from DOM
     "getbase64Script": "canvasRunner = document.getElementById('runner-canvas'); \
-    return canvasRunner.toDataURL().substring(22)", # get image from canvas
+    return canvasRunner.toDataURL().substring(22)", # Get image from canvas
     "img_rows": 80,
     "img_cols": 80,
-    "img_channels": 4, # We stack 4 frames
+    "img_channels": 4, 
     "checkpoint" : "./weights/double_dqn2.pth",
-    "SAVE_EVERY": 4,
-    "num_test_episode": 1,
-    "TEST_EVERY": 3,
-    "SAVE_GIF": False,
-    "SLEEP": 0.007, # using sleep() to control the fps in testing
+    "SAVE_EVERY": 100, # Save model every 100 episodes
+    "num_test_episode": 3, # Number of test episodes
+    "TEST_EVERY": 15, # Test the model every 15 episodes
+    "SAVE_GIF": False, # Save GIF of the gameplay
+    "SLEEP": 0.007, # Using sleep() to control the FPS in testing
 
     # Hyperparameters
-    "algorithm": "DoubleDQN",
-    "EPISODE": 5,
-    "ACTIONS": 2, # possible actions: jump, duck () and do nothing
-    "GAMMA": 0.99, # decay rate of past observations original 0.99
-    "OBSERVATION": 100, # timesteps to observe before training
-    "FINAL_EPSILON": 1e-1, # final value of epsilon
-    "INITIAL_EPSILON": 1, # starting value of epsilon (initial randomness)
-    "EPSILON_DECAY": 0.9999925, #0.999975
-    "REPLAY_MEMORY": 100000, # number of previous transitions to remember
-    "BATCH": 32, # size of minibatch
-    "FRAME_PER_ACTION": 1,
-    "lr": 1e-4,
-    "weight_decay": 1e-4,
-    "SYNC_EVERY": 1e4,   # no. of experiences between Q_target & Q_online sync
-    "TRAIN_EVERY": 3,
+    "algorithm": "DoubleDQN", # Algorithm to use
+    "EPISODE": 5, # Number of episodes for training
+    "ACTIONS": 2, # Possible actions: jump, duck, and do nothing
+    "GAMMA": 0.99, # Decay rate of past observations
+    "OBSERVATION": 100, # Timesteps to observe before training
+    "FINAL_EPSILON": 1e-1, # Final value of epsilon (exploration probability)
+    "INITIAL_EPSILON": 1, # Starting value of epsilon (initial randomness)
+    "EPSILON_DECAY": 0.999975, # Decay rate for epsilon
+    "REPLAY_MEMORY": 100000, # Number of previous transitions to remember
+    "BATCH": 32, # Size of minibatch
+    "FRAME_PER_ACTION": 1, # Number of frames per action
+    "lr": 1e-4, # Learning rate
+    "weight_decay": 1e-4, # Weight decay for regularization
+    "SYNC_EVERY": 1e4, # Number of experiences between Q_target & Q_online sync
+    "TRAIN_EVERY": 3, # Train the model every 3 steps
     "prioritized_replay": False, # FPS is slower than unprioritized
-    "grad_norm_clipping": 10 # prevent gradien explosion
+    "grad_norm_clipping": 10 # Gradient clipping to prevent explosion
 
 }
