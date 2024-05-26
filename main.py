@@ -1,13 +1,13 @@
 from multiprocessing.sharedctypes import Value  # For shared memory data types
 from typing import Deque  # For double-ended queue type hints
-from utils.env import Game  # Custom game environment class
+from src.env import Game  # Custom game environment class
 from types import SimpleNamespace  # For creating simple objects with dynamic attributes
 from torch import optim  
 from torch.utils.tensorboard import SummaryWriter  # For logging to TensorBoard
-from models.model import Baseline, DoubleDQN  # Custom model definitions
-from models.train import trainNetwork  # Custom training function
-from models.test import test_agent  # Custom testing function
-from utils.utils import init_cache, load_obj  # Utility functions for initialization and loading objects
+from src.models.model import Baseline, DoubleDQN  # Custom model definitions
+from src.models.train import trainNetwork  # Custom training function
+from src.models.test import test_agent  # Custom testing function
+from misc.utils import init_cache, load_obj  # Utility functions for initialization and loading objects
 import datetime  # For handling dates and times
 import sys  # For system-specific parameters and functions
 import importlib  # For importing modules dynamically
@@ -34,7 +34,17 @@ def parse_args():
     parser_args, _ = parser.parse_known_args(sys.argv)
     print("Using config file", parser_args.config)
 
-    args = importlib.import_module(parser_args.config).args
+    # Add the config directory to sys.path
+    config_dir = os.path.dirname(parser_args.config)
+    sys.path.insert(0, config_dir)
+
+    # Import the config module
+    config_module_name = os.path.basename(parser_args.config).replace('.py', '')
+    config_module = importlib.import_module(config_module_name)
+
+    args = config_module.args
+
+    #args = importlib.import_module(parser_args.config).args
     args["experiment_name"] = parser_args.config
     args =  SimpleNamespace(**args) # Convert the arguments to a SimpleNamespace
 
@@ -76,6 +86,7 @@ if __name__ == '__main__':
     
     if args.train != 'test':
         # Initialize the game and start training
+        print('-------------------------------------Start Training-------------------------------------')
         game = Game(args.game_url, args.chrome_driver_path, args.init_script)
         game.screen_shot()
 
@@ -92,5 +103,3 @@ if __name__ == '__main__':
         with torch.no_grad():
             test_agent(agent, args, device)
         print('-------------------------------------Finish Testing-------------------------------------')
-
-    print("Exit")
