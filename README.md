@@ -46,7 +46,7 @@ Team members:
 Follow these instructions to set up and run:
 
 ```bash
-python main.py -c config
+python main.py -c config/config1
 ```
 
 ### License
