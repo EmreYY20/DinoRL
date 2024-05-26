@@ -1,7 +1,7 @@
 from multiprocessing.sharedctypes import Value
 import os
 from typing import Deque
-from utils.game import Game
+from utils.env import Game
 import datetime
 import sys
 import importlib

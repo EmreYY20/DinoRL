@@ -1,6 +1,6 @@
 from tqdm import tqdm
 from utils.utils import AverageMeter
-from utils.game import Game
+from utils.env import Game
 import copy
 import torch
 import numpy as np
