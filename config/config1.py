@@ -4,7 +4,8 @@ abs_path = os.path.dirname(__file__)
 args = {
 
     # Env setting
-    "game_url": "http://www.aboutsamyuen.com/projects/chrome_dino_js/index.html",
+    # environment taken from https://github.com/wayou/t-rex-runner
+    "game_url": "../t-rex-runner-gh-pages/index.html", # if local path doesn't work use official website: https://wayou.github.io/t-rex-runner/
     "chrome_driver_path": "/usr/lib/chromium-browser/chromedriver",
     "train": 'train', # Options: 'train', 'test'
     "init_script": "document.getElementsByClassName('runner-canvas')[0].id = 'runner-canvas'", # Create ID for canvas for faster selection from DOM
