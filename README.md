@@ -43,6 +43,13 @@ Team members:
    pip install -r requirements.txt
 
 ### Usage
+
+Start localhost with:
+
+```bash
+python -m http.server 8000
+```
+
 Follow these instructions to set up and run:
 
 ```bash
