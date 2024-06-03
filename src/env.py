@@ -21,9 +21,9 @@ class Game():
         
         # Setting up Chrome options for headless mode and other configurations
         chrome_options = Options()
-        chrome_options.add_argument('headless')  # Not showing browser is faster
-        chrome_options.add_argument("disable-infobars")
-        chrome_options.add_argument("--mute-audio")
+        #chrome_options.add_argument('headless')  # Not showing browser is faster
+        #chrome_options.add_argument("disable-infobars")
+        #chrome_options.add_argument("--mute-audio")
         
         # Setting up the ChromeDriver service
         service = Service(ChromeDriverManager().install())
