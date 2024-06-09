@@ -1,6 +1,6 @@
 from src.ReplayBuffer import ReplayBuffer, PrioritizedReplayBuffer # Custom replay buffers
 from torch.utils.tensorboard import SummaryWriter # For logging to TensorBoard
-from src.models.model import Baseline, DoubleDQN # Custom model definitions
+from src.models.model import DoubleDQN # Custom model definitions
 import pickle # For object serialization
 import torch.nn as nn
 
