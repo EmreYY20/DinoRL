@@ -50,11 +50,18 @@ Team members:
    python -m http.server 8000
    ```
 
-2. Run the code by selecting a config file (you can edit the config before running):
+2. Run the code by selecting a config file:
 
    ```bash
    python main.py -c config/config1
    ```
+
+   To the run the baseline:
+   ```bash
+   python baseline/main_modified.py -c config/baseline_config
+   ```
+
+   
 
 ## License
 This project is licensed under the MIT License - see the [License](LICENSE) file for details. 
