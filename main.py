@@ -18,10 +18,7 @@ import os  # For operating system interfaces
 
 def get_dino_agent(algo):
     # Return the appropriate agent class based on the algorithm name
-    if algo == "Baseline":
-        print("Using algorithm Baseline.")
-        return Baseline
-    elif algo == "DoubleDQN":
+    if algo == "DoubleDQN":
         print("Using algorithm DoubleDQN.")
         return DoubleDQN
     else:
