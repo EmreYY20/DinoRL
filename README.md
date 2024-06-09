@@ -50,7 +50,7 @@ Team members:
    python -m http.server 8000
    ```
 
-2. Run the code (you can edit the config before running):
+2. Run the code by selecting a config file (you can edit the config before running):
 
    ```bash
    python main.py -c config/config1
