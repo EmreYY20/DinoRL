@@ -42,7 +42,7 @@ Team members:
    ```bash
    pip install -r requirements.txt
 
-### Usage
+## Usage
 
 1. Start localhost with:
 
@@ -56,5 +56,5 @@ Team members:
    python main.py -c config/config1
    ```
 
-### License
+## License
 This project is licensed under the MIT License - see the [License](LICENSE) file for details. 
