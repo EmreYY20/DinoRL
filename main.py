@@ -4,7 +4,7 @@ from src.env import Game  # Custom game environment class
 from types import SimpleNamespace  # For creating simple objects with dynamic attributes
 from torch import optim  
 from torch.utils.tensorboard import SummaryWriter  # For logging to TensorBoard
-from src.models.model import Baseline, DoubleDQN  # Custom model definitions
+from src.models.model import DoubleDQN  # Custom model definitions
 from src.models.train import trainNetwork  # Custom training function
 from src.models.test import test_agent  # Custom testing function
 from misc.utils import init_cache, load_obj  # Utility functions for initialization and loading objects

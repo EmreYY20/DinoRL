@@ -42,19 +42,19 @@ Team members:
    ```bash
    pip install -r requirements.txt
 
-### Usage
+## Usage
 
-Start localhost with:
+1. Start localhost with:
 
-```bash
-python -m http.server 8000
-```
+   ```bash
+   python -m http.server 8000
+   ```
 
-Follow these instructions to set up and run:
+2. Run the code by selecting a config file (you can edit the config before running):
 
-```bash
-python main.py -c config/config1
-```
+   ```bash
+   python main.py -c config/config1
+   ```
 
-### License
+## License
 This project is licensed under the MIT License - see the [License](LICENSE) file for details. 
