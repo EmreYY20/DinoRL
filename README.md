@@ -44,17 +44,17 @@ Team members:
 
 ### Usage
 
-Start localhost with:
+1. Start localhost with:
 
-```bash
-python -m http.server 8000
-```
+   ```bash
+   python -m http.server 8000
+   ```
 
-Follow these instructions to set up and run:
+2. Run the code (you can edit the config before running):
 
-```bash
-python main.py -c config/config1
-```
+   ```bash
+   python main.py -c config/config1
+   ```
 
 ### License
 This project is licensed under the MIT License - see the [License](LICENSE) file for details. 
