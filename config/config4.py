@@ -1,7 +1,7 @@
 import os
 abs_path = os.path.dirname(__file__)
 
-# Training with Increased Learning Rate (lr)
+# Training with Decreased Discount Factor (GAMMA) 
 args = {
 
     # Env setting
@@ -15,7 +15,7 @@ args = {
     "img_rows": 80,
     "img_cols": 80,
     "img_channels": 4, 
-    "checkpoint" : "./weights/double_dqn3.pth",
+    "checkpoint" : "./weights/double_dqn4.pth",
     "SAVE_EVERY": 100, # Save model every 100 episodes
     "num_test_episode": 20, # Number of test episodes
     "TEST_EVERY": 100, # Test the model every 100 episodes
@@ -26,7 +26,7 @@ args = {
     "algorithm": "DoubleDQN", # Algorithm to use
     "EPISODE": 200, # Number of episodes for training
     "ACTIONS": 2, # Possible actions: jump or do nothing
-    "GAMMA": 0.99, # Decay rate of past observations
+    "GAMMA": 0.95, # Decay rate of past observations
     "OBSERVATION": 50, # Timesteps to observe before training
     "FINAL_EPSILON": 1e-1, # Final value of epsilon (exploration probability)
     "INITIAL_EPSILON": 1, # Starting value of epsilon (initial randomness)

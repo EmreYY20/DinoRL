@@ -1,10 +1,12 @@
 import os
 abs_path = os.path.dirname(__file__)
 
+# Training with Prioritized Experience Replay
 args = {
 
     # Env setting
-    "game_url": "https://wayou.github.io/t-rex-runner/", # http://localhost:8000/t-rex-runner-gh-pages
+    # environment taken from https://github.com/wayou/t-rex-runner
+    "game_url": "http://localhost:8000/t-rex-runner-gh-pages", # if local path doesn't work, use website: https://wayou.github.io/t-rex-runner/
     "chrome_driver_path": "/usr/lib/chromium-browser/chromedriver",
     "train": 'train', # Options: 'train', 'test'
     "init_script": "document.getElementsByClassName('runner-canvas')[0].id = 'runner-canvas'", # Create ID for canvas for faster selection from DOM
@@ -13,30 +15,30 @@ args = {
     "img_rows": 80,
     "img_cols": 80,
     "img_channels": 4, 
-    "checkpoint" : "./weights/double_dqn.pth",
+    "checkpoint" : "./weights/double_dqn2.pth",
     "SAVE_EVERY": 100, # Save model every 100 episodes
-    "num_test_episode": 3, # Number of test episodes
-    "TEST_EVERY": 15, # Test the model every 15 episodes
+    "num_test_episode": 20, # Number of test episodes
+    "TEST_EVERY": 100, # Test the model every 100 episodes
     "SAVE_GIF": False, # Save GIF of the gameplay
     "SLEEP": 0.007, # Using sleep() to control the FPS in testing
 
     # Hyperparameters
     "algorithm": "DoubleDQN", # Algorithm to use
-    "EPISODE": 5, # Number of episodes for training
-    "ACTIONS": 2, # Possible actions: jump, duck, and do nothing
+    "EPISODE": 200, # Number of episodes for training
+    "ACTIONS": 2, # Possible actions: jump or do nothing
     "GAMMA": 0.99, # Decay rate of past observations
-    "OBSERVATION": 100, # Timesteps to observe before training
+    "OBSERVATION": 50, # Timesteps to observe before training
     "FINAL_EPSILON": 1e-1, # Final value of epsilon (exploration probability)
     "INITIAL_EPSILON": 1, # Starting value of epsilon (initial randomness)
-    "EPSILON_DECAY": 0.999975, # Decay rate for epsilon
-    "REPLAY_MEMORY": 100000, # Number of previous transitions to remember
+    "EPSILON_DECAY": 0.9999925, # Decay rate for epsilon
+    "REPLAY_MEMORY": 50, # Number of previous transitions to remember
     "BATCH": 32, # Size of minibatch
     "FRAME_PER_ACTION": 1, # Number of frames per action
     "lr": 1e-4, # Learning rate
     "weight_decay": 1e-4, # Weight decay for regularization
-    "SYNC_EVERY": 1e4, # Number of experiences between Q_target & Q_online sync
+    "SYNC_EVERY": 100, # Number of experiences between Q_target & Q_online sync
     "TRAIN_EVERY": 3, # Train the model every 3 steps
-    "prioritized_replay": False, # FPS is slower than unprioritized
+    "prioritized_replay": True, # FPS is slower than unprioritized
     "grad_norm_clipping": 10 # Gradient clipping to prevent explosion
 
 }
