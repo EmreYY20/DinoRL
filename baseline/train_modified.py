@@ -11,7 +11,6 @@ class trainNetwork:
     def __init__(self, agent, game, device):
         """Initialize the training process with the given agent, game, and device"""
         self.agent = agent
-        self.agent.model.to(device)  # Use the model attribute
         self.game = game
         self.device = device
         self.episode_rewards = []  # Store rewards for each episode

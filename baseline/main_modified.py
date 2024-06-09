@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.env import Game
 from torch.utils.tensorboard import SummaryWriter
-from src.models.model import Baseline, DoubleDQN
+from src.models.model import DoubleDQN
 from baseline.train_modified import trainNetwork
 from misc.utils import init_cache, load_obj
 import importlib
@@ -16,10 +16,7 @@ import torch
 
 def get_dino_agent(algo):
     if algo == "Baseline":
-        print("Using algorithm Baseline.")
-        return Baseline
-    elif algo == "DoubleDQN":
-        print("Using algorithm DoubleDQN.")
+        print("Using Baseline.")
         return DoubleDQN
     else:
         raise ValueError
