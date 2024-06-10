@@ -5,6 +5,10 @@
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+![Dino_non-birthday_version](https://github.com/EmreYY20/DinoRL/assets/120115560/9609942f-1c2a-403f-a98d-7f987b34fb54)
+
+
 ## Table of Contents
 
 - [About](#about)
