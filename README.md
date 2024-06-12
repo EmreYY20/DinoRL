@@ -32,8 +32,7 @@ Team members:
 
 - Python 3.10 or higher
 - Google Chrome-Browser
-- ChromeDriver if it is not installed, but it is installed by default
-
+  
 ### Installation
 
 1. Clone the repository:
