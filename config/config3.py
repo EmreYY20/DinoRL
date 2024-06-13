@@ -8,7 +8,7 @@ args = {
     # environment taken from https://github.com/wayou/t-rex-runner
     "game_url": "http://localhost:8000/t-rex-runner-gh-pages", # if local path doesn't work, use website: https://wayou.github.io/t-rex-runner/
     "chrome_driver_path": "/usr/lib/chromium-browser/chromedriver",
-    "train": 'train', # Options: 'train', 'test'
+    "train": 'test', # Options: 'train', 'test'python main.py -c config/config1
     "init_script": "document.getElementsByClassName('runner-canvas')[0].id = 'runner-canvas'", # Create ID for canvas for faster selection from DOM
     "getbase64Script": "canvasRunner = document.getElementById('runner-canvas'); \
     return canvasRunner.toDataURL().substring(22)", # Get image from canvas
