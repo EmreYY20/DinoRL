@@ -2,15 +2,18 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # Load the scores from a NumPy file
-scores = np.load('./test_scores/DoubleDQN.npy')
+scores = np.load('./test_scores/DoubleDQN_3.npy')
 
 # Plot the scores with a label and some transparency
 plt.plot(scores, label='score', alpha=0.7)
 
 # Add text annotations for mean, median, and minimum score
 plt.text(85, np.mean(scores), 'mean (' + str(np.mean(scores)) +')')
-plt.text(85, np.median(scores)-5000, 'median (' + str(np.median(scores)) + ')')
-plt.text(85, np.min(scores)-5000, 'min (' + str(np.min(scores))+')')
+plt.text(85, np.median(scores), 'median (' + str(np.median(scores)) + ')')
+plt.text(85, np.min(scores), 'min (' + str(np.min(scores))+')')
+
+# make x axis every episode, show
+plt.xticks(np.arange(0, 20, 2))
 
 # Draw horizontal lines for mean, median, and minimum scores
 plt.axhline(y=np.mean(scores), color='r', linestyle='--', label='mean')
@@ -22,7 +25,7 @@ plt.xlabel('Episodes')
 plt.ylabel('Scores')
 
 # Add a title to the plot
-plt.title('Testing scores in n episodes')
+plt.title('Testing Scores for 20 Episodes (Config 3)')
 
 # Add a legend to the plot
 plt.legend()
