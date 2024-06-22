@@ -6,7 +6,7 @@ args = {
 
     # Env setting
     # environment taken from https://github.com/wayou/t-rex-runner
-    "game_url": "http://localhost:8000", # if local path doesn't work, use website: https://wayou.github.io/t-rex-runner/
+    "game_url": "http://localhost:8000/t-rex-runner-gh-pages", # if local path doesn't work, use website: https://wayou.github.io/t-rex-runner/
     "chrome_driver_path": "/usr/lib/chromium-browser/chromedriver",
     "train": 'train', # Options: 'train', 'test'
     "init_script": "document.getElementsByClassName('runner-canvas')[0].id = 'runner-canvas'", # Create ID for canvas for faster selection from DOM
@@ -15,7 +15,7 @@ args = {
     "img_rows": 80,
     "img_cols": 80,
     "img_channels": 4, 
-    "checkpoint" : "./weights/double_dqn4.pth",
+    "checkpoint" : "./weights/double_dqn_config4.pth",
     "SAVE_EVERY": 1000, # Save model every 1000 episodes
     "num_test_episode": 20, # Number of test episodes
     "TEST_EVERY": 1000, # Test the model every 1000 episodes

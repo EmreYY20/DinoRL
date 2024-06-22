@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # Load the scores from a NumPy file
-scores = np.load('./test_scores/DoubleDQN_3.npy')
+scores = np.load('./test_scores/DoubleDQN_config2.npy')
 
 # Plot the scores with a label and some transparency
 plt.plot(scores, label='score', alpha=0.7)
@@ -25,13 +25,13 @@ plt.xlabel('Episodes')
 plt.ylabel('Scores')
 
 # Add a title to the plot
-plt.title('Testing Scores for 20 Episodes (Config 3)')
+plt.title('Testing Scores for 20 Episodes (Config 2)')
 
 # Add a legend to the plot
 plt.legend()
 
 # Save the plot as a PNG file
-plt.savefig('./misc/plots/ddqn_testing_scores.png')
+plt.savefig('./misc/plots/ddqn_testing_scores_config2.png')
 
 # Clear the current figure
 plt.clf()

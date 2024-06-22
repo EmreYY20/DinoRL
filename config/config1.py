@@ -15,7 +15,7 @@ args = {
     "img_rows": 80,
     "img_cols": 80,
     "img_channels": 4, 
-    "checkpoint" : "./weights/double_dqn1.pth",
+    "checkpoint" : "./weights/double_dqn_config1.pth",
     "SAVE_EVERY": 1000, # Save model every 1000 episodes
     "num_test_episode": 20, # Number of test episodes
     "TEST_EVERY": 1000, # Test the model every 1000 episodes
