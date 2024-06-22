@@ -18,7 +18,7 @@
 
 ## About
 
-A Reinforcement Learning project that trains multiple Reinforcement Learning Algorithms to excel in the Chrome Dino Game by dodging obstacles and maximizing its score through iterative learning.
+A Reinforcement Learning project that trains various Double Deep Q-Networks to excel in the Chrome Dino Game by dodging obstacles and maximizing its score through iterative learning.
 
 Team members:
 - [Emre Iyigün](https://github.com/EmreYY20) 
@@ -30,7 +30,7 @@ Team members:
 
 ### Prerequisites
 
-- Python 3.10 or higher
+- Python 3.8 or higher
 - Google Chrome-Browser
   
 ### Installation
