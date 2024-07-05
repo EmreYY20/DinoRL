@@ -56,7 +56,7 @@ Team members:
    python -m http.server 8000
    ```
 
-2. Run the code by selecting a config file:
+2. Run the code by selecting a config file. In the config file select if you want to train or test:
 
    ```bash
    python main.py -c config/config1
@@ -66,7 +66,7 @@ Team members:
    ```bash
    python baseline/main_modified.py -c config/baseline_config
    ```
-
+After training, a tfevents-file is created in the runs folder which can be openend using TensorBoard.
    
 
 ## License
