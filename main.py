@@ -1,23 +1,27 @@
-from multiprocessing.sharedctypes import Value  # For shared memory data types
-from typing import Deque  # For double-ended queue type hints
-from src.env import Game  # Custom game environment class
-from types import SimpleNamespace  # For creating simple objects with dynamic attributes
+############ import libraries ############
+
+from multiprocessing.sharedctypes import Value
+from typing import Deque
+from src.env import Game
+from types import SimpleNamespace
 from torch import optim  
-from torch.utils.tensorboard import SummaryWriter  # For logging to TensorBoard
-from src.models.model import DoubleDQN  # Custom model definitions
-from src.models.train import trainNetwork  # Custom training function
-from src.models.test import test_agent  # Custom testing function
-from misc.utils import init_cache, load_obj  # Utility functions for initialization and loading objects
-import datetime  # For handling dates and times
-import sys  # For system-specific parameters and functions
-import importlib  # For importing modules dynamically
-import argparse  # For parsing command-line arguments
+from torch.utils.tensorboard import SummaryWriter
+from src.models.model import DoubleDQN
+from src.models.train import trainNetwork
+from src.models.test import test_agent
+from misc.utils import init_cache, load_obj
+import datetime
+import sys
+import importlib
+import argparse
 import torch  
 import torch.nn as nn 
-import os  # For operating system interfaces
+import os
+
+#########################################
 
 def get_dino_agent(algo):
-    # Return the appropriate agent class based on the algorithm name
+    # return the appropriate agent class based on the algorithm name
     if algo == "DoubleDQN":
         print("Using algorithm DoubleDQN.")
         return DoubleDQN
@@ -25,17 +29,17 @@ def get_dino_agent(algo):
         raise ValueError
 
 def parse_args():
-    # Parse command-line arguments and load configuration
+    # parse command-line arguments and load configuration
     parser = argparse.ArgumentParser(description='')
     parser.add_argument("-c", "--config", help="config filename")
     parser_args, _ = parser.parse_known_args(sys.argv)
     print("Using config file", parser_args.config)
 
-    # Add the config directory to sys.path
+    # add the config directory to sys.path
     config_dir = os.path.dirname(parser_args.config)
     sys.path.insert(0, config_dir)
 
-    # Import the config module
+    # import the config module
     config_module_name = os.path.basename(parser_args.config).replace('.py', '')
     config_module = importlib.import_module(config_module_name)
 
@@ -43,24 +47,24 @@ def parse_args():
 
     #args = importlib.import_module(parser_args.config).args
     args["experiment_name"] = parser_args.config
-    args =  SimpleNamespace(**args) # Convert the arguments to a SimpleNamespace
+    args = SimpleNamespace(**args) # convert the arguments to a SimpleNamespace
 
     return args
 
-# Main function to be run with the script, run with: python main.py -c config
+# main function to be run with the script, run with: python main.py -c config
 if __name__ == '__main__':
     args = parse_args()
 
-    # Create a log folder for TensorBoard
+    # create a log folder for TensorBoard
     if not os.path.isdir('runs'):
         os.makedirs('runs')
 
-    # Create a folder to save the buffer, epsilon for continuous training
+    # create a folder to save the buffer, epsilon for continuous training
     if not os.path.isdir('result'):
         os.makedirs('result')
 
-    log_dir = datetime.datetime.now().strftime("%Y%m%d-%H%M%S") # Create a log directory with the current timestamp
-    writer = SummaryWriter(comment=log_dir) # Initialize the TensorBoard writer
+    log_dir = datetime.datetime.now().strftime("%Y%m%d-%H%M%S") # create a log directory with the current timestamp
+    writer = SummaryWriter(comment=log_dir) # initialize the TensorBoard writer
     
     DinoAgent = get_dino_agent(args.algorithm)
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -68,27 +72,27 @@ if __name__ == '__main__':
                       args.BATCH, args.GAMMA, device, args.grad_norm_clipping)
     print("Device:", device)
 
-    if args.train == 'train': # Train a model from scratch
-        init_cache(args.INITIAL_EPSILON, args.REPLAY_MEMORY, args.prioritized_replay) # Initialize cache
-    else: # Continue training a model or test the agent
-        agent = torch.load(args.checkpoint, map_location=device) # Load the model checkpoint
+    if args.train == 'train': # train a model from scratch
+        init_cache(args.INITIAL_EPSILON, args.REPLAY_MEMORY, args.prioritized_replay) # initialize cache
+    else: # continue training a model or test the agent
+        agent = torch.load(args.checkpoint, map_location=device) # load the model checkpoint
         print ("Weight load successfully")
     
     set_up = load_obj("set_up")
     epsilon, step, Deque, highest_score = set_up['epsilon'], set_up['step'], set_up['D'], set_up['highest_score']
     OBSERVE = args.OBSERVATION
     if args.train == 'test':
-        epsilon = 0 # Set epsilon to 0 for testing
-        OBSERVE = float('inf') # Set observe to infinity for testing
+        epsilon = 0 # set epsilon to 0 for testing
+        OBSERVE = float('inf') # set observe to infinity for testing
     
     if args.train != 'test':
-        # Initialize the game and start training
+        # initialize the game and start training
         print('-------------------------------------Start Training-------------------------------------')
         game = Game(args.game_url, args.chrome_driver_path, args.init_script)
         game.screen_shot()
 
         train = trainNetwork(agent, game, writer, Deque, args.BATCH, device)
-        game.press_up() # Start the game
+        game.press_up() # start the game
         train.start(epsilon, step, highest_score, 
                 OBSERVE, args.ACTIONS, args.EPSILON_DECAY, args.FINAL_EPSILON, 
                 args.GAMMA, args.FRAME_PER_ACTION, args.EPISODE, 
@@ -96,7 +100,7 @@ if __name__ == '__main__':
         game.end()
         print('-------------------------------------Finish Training-------------------------------------')
     else: 
-        # Test the agent
+        # test the agent
         with torch.no_grad():
             test_agent(agent, args, device)
         print('-------------------------------------Finish Testing-------------------------------------')

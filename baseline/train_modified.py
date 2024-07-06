@@ -1,3 +1,5 @@
+############ import libraries ############
+
 from misc.utils import AverageMeter, save_obj
 import numpy as np
 import torch
@@ -6,20 +8,21 @@ import os
 import sys
 sys.path.append("../")
 
+#########################################
 class trainNetwork:
     def __init__(self, agent, game, device):
-        """Initialize the training process with the given agent, game, and device"""
+        """initialize the training process with the given agent, game, and device"""
         self.agent = agent
         self.game = game
         self.device = device
-        self.episode_rewards = []  # Store rewards for each episode
+        self.episode_rewards = []  # store rewards for each episode
 
-        # Ensure results directory exists
+        # ensure results directory exists
         os.makedirs('./results', exist_ok=True)
         os.makedirs('./weights', exist_ok=True)
 
     def save(self):
-        """Save the episode rewards to disk"""
+        """save the episode rewards to disk"""
         np.save('./results/episode_rewards.npy', self.episode_rewards)
 
         df = pd.DataFrame({'episode': list(range(len(self.episode_rewards))), 'reward': self.episode_rewards})
@@ -30,14 +33,14 @@ class trainNetwork:
         
         while current_episode < EPISODE:
             step = 0
-            self.game.restart()  # Make sure to restart the game for each episode
-            x_t, _, terminal = self.game.get_state(np.zeros(ACTIONS))  # Initial state
+            self.game.restart()  # make sure to restart the game for each episode
+            x_t, _, terminal = self.game.get_state(np.zeros(ACTIONS))  # initial state
             s_t = np.stack((x_t, x_t, x_t, x_t), axis=2)  # stack 4 images to create placeholder input
             s_t = s_t.reshape(1, s_t.shape[2], s_t.shape[0], s_t.shape[1])  # 1*4*80*80
             s_t = torch.from_numpy(s_t).float()
             
             while not self.game.get_crashed():
-                action_idx = 1  # Always jump
+                action_idx = 1  # always jump
                 a_t = np.zeros([ACTIONS])
                 a_t[action_idx] = 1
 
@@ -52,10 +55,10 @@ class trainNetwork:
                 if terminal:
                     break
 
-            # Get the score from the game as the total reward
+            # get the score from the game as the total reward
             total_reward = self.game.get_score()
             self.episode_rewards.append(total_reward)
             current_episode += 1
             print(f"Episode: {current_episode}, Total Reward: {total_reward}")
 
-        self.save()  # Save results at the end
+        self.save()  # save results at the end
