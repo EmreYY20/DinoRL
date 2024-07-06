@@ -1,10 +1,6 @@
 import sys
 import os
 from types import SimpleNamespace
-
-# Add the root directory to the Python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from src.env import Game
 from torch.utils.tensorboard import SummaryWriter
 from src.models.model import DoubleDQN
@@ -13,6 +9,10 @@ from misc.utils import init_cache, load_obj
 import importlib
 import argparse
 import torch
+
+# Add the root directory to the Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 def get_dino_agent(algo):
     if algo == "Baseline":

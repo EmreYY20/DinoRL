@@ -22,7 +22,7 @@ args = {
     "SAVE_GIF": False, # save GIF of the gameplay
     "SLEEP": 0.007, # using sleep() to control the FPS in testing
 
-    # hyperparameters
+    ################ hyperparameters ################
     "algorithm": "DoubleDQN", # algorithm to use
     "EPISODE": 2500, # number of episodes for training
     "ACTIONS": 2, # possible actions: jump or do nothing
