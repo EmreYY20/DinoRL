@@ -1,10 +1,6 @@
 import sys
 import os
 from types import SimpleNamespace
-
-# Add the root directory to the Python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from src.env import Game
 from torch.utils.tensorboard import SummaryWriter
 from src.models.model import DoubleDQN
@@ -13,6 +9,10 @@ from misc.utils import init_cache, load_obj
 import importlib
 import argparse
 import torch
+
+# Add the root directory to the Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 def get_dino_agent(algo):
     if algo == "Baseline":
@@ -54,8 +54,8 @@ def parse_args():
     return args
 
 def main():
-    args = parse_args()
-    writer = SummaryWriter()
+    args = parse_args()  # parse command-line arguments
+    writer = SummaryWriter()  # initialize tensorboard writer
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     agent = get_dino_agent(args.algo)(
         args.img_channels, args.ACTIONS, args.lr, args.weight_decay, 
@@ -64,12 +64,12 @@ def main():
     print("Device:", device)
 
     print('-------------------------------------Start Training-------------------------------------')
-    game = Game(args.game_url, args.chrome_driver_path, args.init_script)
-    game.screen_shot()
-    train = trainNetwork(agent, game, device)
-    game.press_up()
-    train.start(args.EPISODE, args.ACTIONS, args.FRAME_PER_ACTION)
-    game.end()
+    game = Game(args.game_url, args.chrome_driver_path, args.init_script)  # initialize game environment
+    game.screen_shot()  # take initial screenshot
+    train = trainNetwork(agent, game, device)  # initialize training
+    game.press_up()  # start game
+    train.start(args.EPISODE, args.ACTIONS, args.FRAME_PER_ACTION)  # begin training
+    game.end()  # end game session
     print('-------------------------------------Finish Training-------------------------------------')
 
 if __name__ == "__main__":
