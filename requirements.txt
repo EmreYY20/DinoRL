@@ -5,8 +5,15 @@ numpy
 opencv-python
 pandas
 Pillow
+os
+pickle
 selenium
+seaborn
 tensorflow
 torch
 tqdm
 webdriver_manager
+datetime
+copy
+base64
+PIL
