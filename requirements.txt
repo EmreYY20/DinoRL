@@ -6,7 +6,9 @@ opencv-python
 pandas
 Pillow
 selenium
+seaborn
 tensorflow
 torch
 tqdm
 webdriver_manager
+datetime
