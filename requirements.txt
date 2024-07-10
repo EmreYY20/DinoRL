@@ -16,4 +16,3 @@ webdriver_manager
 datetime
 copy
 base64
-PIL
