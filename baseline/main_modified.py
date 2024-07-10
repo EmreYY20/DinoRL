@@ -1,3 +1,5 @@
+############ import libraries ############
+
 import sys
 import os
 from types import SimpleNamespace
@@ -10,7 +12,9 @@ import importlib
 import argparse
 import torch
 
-# Add the root directory to the Python path
+#########################################
+
+# add the root directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
