@@ -39,7 +39,7 @@ state and reward.
 ![loss_chart](https://github.com/EmreYY20/DinoRL/assets/120115560/10225c7f-7f63-4378-9934-d34fe708bfd5)
 
 #### Test Results
-The chart compares the maximum scores reached by different variants in 20 test rounds. Variants 1
+The chart compares the maximum scores reached by different variants in a random environment for 20 test rounds. Variants 1
 (Blue), 2 (Orange), and 3 (Green) also surpassed the baseline (Grey), with Variant 3 (Green) performing slightly better
 than Variants 1 and 2.
 ![max](https://github.com/EmreYY20/DinoRL/assets/120115560/0889d72f-33a7-4151-a05e-0c7515c159f5)
