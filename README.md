@@ -18,13 +18,31 @@
 
 ## About
 
-A Reinforcement Learning project that trains various Double Deep Q-Networks to excel in the Chrome Dino Game by dodging obstacles and maximizing its score through iterative learning.
+A Reinforcement Learning project that trains various Double Deep Q-Networks (DDQN) to excel in the Chrome Dino Game by dodging obstacles and maximizing its score through iterative learning.
 
 Team members:
 - [Emre Iyigün](https://github.com/EmreYY20) 
 - [Aref Hasan](https://github.com/aref-hasan) 
 - [Nik Yakovlev](https://github.com/nikyak10)
 - [Ilgar Korkmaz](https://github.com/ilgark)
+
+#### Implementation of the DDQN
+The diagram illustrates the architecture of the DDQN. The agent receives a stack of 4 images (80x80
+pixels each) representing the last states and uses its Q-Network to predict Q-values for possible actions ("Do nothing"
+or "Jump"). Based on these Q-values, the agent selects an action and interacts with the environment, resulting in a new
+state and reward. 
+![RL (4) (1)](https://github.com/EmreYY20/DinoRL/assets/120115560/5faf7020-1ad0-4afe-8773-e98f1855b7f1)
+
+#### Training Results
+![score_chart](https://github.com/EmreYY20/DinoRL/assets/120115560/0ef0b521-d203-40f7-9c27-8750f8d4fe19)
+![reward_chart](https://github.com/EmreYY20/DinoRL/assets/120115560/8bc83af4-39e9-4675-b446-1cdcd1bbc34a)
+![loss_chart](https://github.com/EmreYY20/DinoRL/assets/120115560/10225c7f-7f63-4378-9934-d34fe708bfd5)
+
+#### Test Results
+The chart compares the maximum scores reached by different variants in 20 test rounds. Variants 1
+(Blue), 2 (Orange), and 3 (Green) also surpassed the baseline (Grey), with Variant 3 (Green) performing slightly better
+than Variants 1 and 2.
+![max](https://github.com/EmreYY20/DinoRL/assets/120115560/0889d72f-33a7-4151-a05e-0c7515c159f5)
 
 ## Getting Started
 
